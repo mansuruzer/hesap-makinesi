@@ -94,7 +94,10 @@
   .hidden{display:none!important}
   footer{color:var(--sub);font-size:12px;text-align:center;padding:10px 16px 36px;line-height:1.7}
   footer a,.promo a{color:var(--text);font-weight:600;text-decoration:none;border-bottom:1px solid var(--line2)}
-  .promo{font-size:13px;color:var(--sub);margin-top:12px;padding-top:12px;border-top:1px solid color-mix(in srgb,var(--ok) 20%,transparent)}
+  .nowdo{display:flex;gap:12px;align-items:center}
+  .nowdo .nd-logo{width:36px;height:36px;border-radius:10px;background:var(--in);border:1px solid var(--line2);display:grid;place-items:center;flex:none;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:15px;color:var(--brand)}
+  .nowdo .nd-text{flex:1;min-width:0;font-size:13.5px;color:var(--sub);line-height:1.4}
+  .nowdo .nd-text b{display:block;color:var(--text);font-size:14.5px}
   @media (max-width:380px){ h1{font-size:23px} }
 </style>
 </head>
@@ -173,8 +176,13 @@
     <span class="meta">Siteyi gruplara at, ne kadar çok kişi bakarsa o kadar hızlı makine bulunur.</span>
     <a class="btn ghost sm" id="shareBtn" target="_blank" rel="noopener">Gruba paylaş</a>
   </div>
+  <div class="card nowdo">
+    <div class="nd-logo" aria-hidden="true">N</div>
+    <div class="nd-text"><b>Sınav haftasını planla: NowDo</b>Ne zaman neye çalışacağını söyleyen ücretsiz uygulama.</div>
+    <a class="btn ghost sm" href="https://nowdoplan.vercel.app/?utm_source=hesap-makinesi&amp;utm_medium=referral&amp;utm_content=card" target="_blank" rel="noopener">Göz at</a>
+  </div>
 </main>
-<footer>Öğrenciler tarafından, öğrenciler için. Resmî bir YTÜ servisi değildir.<br>Bu siteyi yapan öğrencinin diğer projesi: <a href="https://nowdoplan.vercel.app/?utm_source=hesap-makinesi&amp;utm_medium=referral&amp;utm_content=footer" target="_blank" rel="noopener">NowDo</a></footer>
+<footer>Öğrenciler tarafından, öğrenciler için. Resmî bir YTÜ servisi değildir.</footer>
 
 <datalist id="models">
   <option>Casio fx-991EX</option><option>Casio fx-991ES Plus</option><option>Casio fx-991CW</option>
@@ -187,7 +195,6 @@ const SB_URL = "https://vrhogufuhskmhakcppzm.supabase.co";
 const SB_KEY = "sb_publishable_GjxApM76XEhcbeCYptXw2g_arPmfx6q";
 const CAMPUSES = ["Davutpaşa", "Yıldız (Beşiktaş)", "Diğer"];
 const SITE = location.origin + location.pathname;
-const NOWDO = "https://nowdoplan.vercel.app/?utm_source=hesap-makinesi&utm_medium=referral&utm_content=talep";
 const $ = id => document.getElementById(id);
 
 async function rpc(fn, args = {}) {
@@ -345,7 +352,7 @@ $("rBtn").onclick = async () => {
     store.set("hm_me", { name: $("rName").value.trim(), phone: $("rPhone").value.trim() });
     const d = new Date(iso(date, s)).toLocaleDateString("tr-TR", { ...TZ, day: "numeric", month: "long" });
     const groupText = `${d} ${s}-${e} arası sınavım için hesap makinesi lazım (${$("rCampus").value}). Verebilecek varsa buradan yazabilir: ${SITE}#give`;
-    msg("rOut", `Talebin yayında. Makinesi olan biri WhatsApp'tan yazacak.<a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(groupText)}">Gruba da duyur</a><div class="promo">Sınav haftasını planlamak için: <a href="${NOWDO}" target="_blank" rel="noopener">NowDo</a>, ne zaman neye çalışacağını söyleyen ücretsiz uygulama.</div>`, true);
+    msg("rOut", `Talebin yayında. Makinesi olan biri WhatsApp'tan yazacak.<a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(groupText)}">Gruba da duyur</a>`, true);
     $("rNote").value = "";
     load();
   } catch (err) { msg("rOut", esc(err.message)); }
