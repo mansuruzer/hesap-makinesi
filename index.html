@@ -45,7 +45,7 @@
   h1{font-family:"Space Grotesk",sans-serif;font-size:26px;line-height:1.15;letter-spacing:-.02em;margin:0 0 6px}
   .lead{color:var(--sub);margin:0}
   .seg{display:flex;gap:2px;padding:3px;border-radius:99px;background:var(--in);border:1px solid var(--line);margin:4px 0 16px}
-  .seg button{flex:1;border:0;background:transparent;color:var(--sub);font:inherit;font-size:13.5px;font-weight:600;padding:8px 6px;border-radius:99px;cursor:pointer;transition:background-color .2s,color .2s,box-shadow .2s}
+  .seg button{flex:1;min-width:0;white-space:nowrap;border:0;background:transparent;color:var(--sub);font:inherit;font-size:13.5px;font-weight:600;padding:8px 6px;border-radius:99px;cursor:pointer;transition:background-color .2s,color .2s,box-shadow .2s}
   .seg button[aria-selected="true"]{background:var(--seg-on);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.08),0 1px 6px -2px rgba(0,0,0,.12)}
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
   h2{font-family:"Space Grotesk",sans-serif;font-size:17px;letter-spacing:-.01em;margin:0 0 2px}
@@ -90,11 +90,32 @@
   .empty .btn{margin-top:12px}
   .status{display:flex;gap:12px;align-items:center;justify-content:space-between}
   .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand);margin-right:7px;vertical-align:1px}
+  .board-ctl{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .board-ctl label{margin-top:0}
+  #board .check{margin-top:16px}
+  .legend{display:flex;gap:14px;font-size:12.5px;color:var(--sub);margin:14px 0 4px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .board{margin-top:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .brow{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px;align-items:center}
+  .brow+.brow{margin-top:10px}
+  .brow.sum{margin-top:2px}
+  .brow.head{font-size:10.5px;color:var(--sub);font-variant-numeric:tabular-nums}
+  .brow.head span{text-align:center}
+  .brow.sum span{font-size:11px;font-weight:700;text-align:center;color:var(--brand);font-variant-numeric:tabular-nums}
+  .brow.sum span.zero{color:var(--sub);font-weight:500}
+  .bname{grid-column:1 / -1;min-width:0;line-height:1.25;display:flex;gap:8px;align-items:baseline}
+  .bname b{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bname small{min-width:0;font-size:12px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cell{height:28px;border-radius:5px;border:0;padding:0;background:color-mix(in srgb,var(--text) 6%,transparent);box-shadow:inset 0 0 0 1px var(--line)}
+  .cell.free{background:color-mix(in srgb,var(--brand) 78%,transparent);box-shadow:none;cursor:pointer}
+  .cell.free:hover{background:var(--brand)}
+  .cell.past{opacity:.35;cursor:default}
+  .bsep{height:1px;background:var(--line);margin:10px 0 8px}
   .share{display:flex;gap:12px;align-items:center;justify-content:space-between}
   .share .meta{flex:1}
   .hidden{display:none!important}
   footer{color:var(--sub);font-size:12px;text-align:center;padding:10px 16px 36px}
-  @media (max-width:380px){ h1{font-size:23px} .stats{display:none} }
+  @media (max-width:380px){ h1{font-size:23px} .stats{display:none} .seg button{font-size:12.5px;padding:8px 2px} }
 </style>
 </head>
 <body>
@@ -116,7 +137,8 @@
   </div>
 
   <div class="seg" role="tablist" aria-label="Bölümler">
-    <button role="tab" data-tab="find" aria-selected="true">Makine bul</button>
+    <button role="tab" data-tab="find" aria-selected="true">Bul</button>
+    <button role="tab" data-tab="board" aria-selected="false">Müsaitlik</button>
     <button role="tab" data-tab="lend" aria-selected="false">Ödünç ver</button>
     <button role="tab" data-tab="reqs" aria-selected="false">Talepler</button>
   </div>
@@ -137,6 +159,21 @@
       <label class="check"><input type="checkbox" id="fBasic" checked> Sadece sınavlarda izinli (programlanamayan) modeller</label>
       <button class="btn" id="fBtn">Ara</button>
       <div id="fOut"></div>
+    </div>
+  </section>
+
+  <!-- MÜSAİTLİK -->
+  <section id="board" class="hidden">
+    <div class="card">
+      <h2>Hangi saatte hangi makine boşta?</h2>
+      <p class="hint">Seçtiğin gün için tüm makinelerin saat saat durumu. Boş bir kutuya dokunursan o saat için sahibine WhatsApp'tan yazarsın.</p>
+      <div class="board-ctl">
+        <div><label for="bDate">Gün</label><input type="date" id="bDate"></div>
+        <div><label for="bCampus">Kampüs</label><select id="bCampus"></select></div>
+      </div>
+      <label class="check"><input type="checkbox" id="bBasic" checked> Sadece sınavlarda izinli modeller</label>
+      <div class="legend"><span><i style="background:color-mix(in srgb,var(--brand) 78%,transparent)"></i>Boşta</span><span><i style="background:color-mix(in srgb,var(--text) 6%,transparent);box-shadow:inset 0 0 0 1px var(--line2)"></i>Sahibi kullanıyor</span></div>
+      <div id="bOut" class="board"><div class="empty">Yükleniyor</div></div>
     </div>
   </section>
 
@@ -260,20 +297,22 @@ function checkRange(date, s, e) {
 }
 
 // başlangıç
-for (const id of ["fCampus", "lCampus", "rCampus"]) {
+const TABS = ["find", "board", "lend", "reqs"];
+for (const id of ["fCampus", "bCampus", "lCampus", "rCampus"]) {
   $(id).innerHTML = CAMPUSES.map(c => `<option>${c}</option>`).join("");
   $(id).value = store.get("hm_campus", CAMPUSES[0]);
   if (!$(id).value) $(id).value = CAMPUSES[0];
 }
-for (const id of ["fDate", "rDate"]) { $(id).value = todayStr(); $(id).min = todayStr(); }
+for (const id of ["fDate", "rDate", "bDate"]) { $(id).value = todayStr(); $(id).min = todayStr(); }
 $("lUntil").value = todayStr(21); $("lUntil").min = todayStr(); $("lUntil").max = todayStr(120);
 
 // sekmeler
 document.querySelectorAll(".seg button").forEach(b => b.onclick = () => showTab(b.dataset.tab));
 function showTab(t) {
   document.querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === t)));
-  for (const s of ["find", "lend", "reqs"]) $(s).classList.toggle("hidden", s !== t);
+  for (const s of TABS) $(s).classList.toggle("hidden", s !== t);
   if (t === "reqs") loadRequests();
+  if (t === "board") loadBoard();
   history.replaceState(null, "", "#" + t);
 }
 
@@ -326,6 +365,48 @@ function prefillReq() {
   $("rDate").value = $("fDate").value; $("rStart").value = $("fStart").value; $("rEnd").value = $("fEnd").value; $("rCampus").value = $("fCampus").value;
   showTab("reqs"); $("reqForm").scrollIntoView({ behavior: "smooth", block: "start" }); setTimeout(() => $("rName").focus(), 300);
 }
+
+// MÜSAİTLİK: her saat dilimi için aynı arama kuralı (sınav saati + 30 dk tampon) uygulanır
+const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+const hh = h => String(h).padStart(2, "0") + ":00";
+let boardSeq = 0;
+async function loadBoard() {
+  const day = $("bDate").value, campus = $("bCampus").value, basic = $("bBasic").checked;
+  if (!day) return;
+  const seq = ++boardSeq;
+  $("bOut").innerHTML = `<div class="empty">Yükleniyor</div>`;
+  try {
+    const res = await Promise.all(HOURS.map(h => rpc("hm_search", { p_start: iso(day, hh(h)), p_end: iso(day, hh(h + 1)), p_campus: campus, p_only_basic: basic })));
+    if (seq !== boardSeq) return;
+    const map = new Map();
+    res.forEach((list, k) => list.forEach(l => {
+      if (!map.has(l.id)) map.set(l.id, { ...l, free: new Set() });
+      map.get(l.id).free.add(HOURS[k]);
+    }));
+    const rows = [...map.values()].sort((a, b) => (b.same_campus - a.same_campus) || (b.free.size - a.free.size) || a.name.localeCompare(b.name, "tr"));
+    window._board = { day, rows };
+    if (!rows.length) {
+      $("bOut").innerHTML = `<div class="empty">${window._stats && window._stats.lenders === 0 ? "Henüz kimse makinesini eklemedi." : "Bu gün için boşta makine yok."}</div>`;
+      return;
+    }
+    const isToday = day === todayStr(), nowH = +nowHM().slice(0, 2);
+    const past = h => isToday && h + 1 <= nowH;
+    const head = `<div class="brow head">${HOURS.map(h => `<span>${h % 2 === 0 ? h : ""}</span>`).join("")}</div>`;
+    const sum = `<div class="brow sum" title="O saatte boşta olan makine sayısı"><div class="bname"><small>Saat başına boşta makine</small></div>${HOURS.map((h, k) => `<span class="${res[k].length ? "" : "zero"}">${past(h) ? "" : res[k].length}</span>`).join("")}</div>`;
+    const body = rows.map((r, i) => `<div class="brow"><div class="bname"><b>${esc(r.name)}</b><small>${esc(r.model)} · ${esc(r.campus)}</small></div>${HOURS.map(h => {
+      const f = r.free.has(h);
+      return f && !past(h)
+        ? `<button class="cell free" data-r="${i}" data-h="${h}" aria-label="${esc(r.name)}, ${hh(h)}–${hh(h + 1)} boşta" title="${hh(h)}–${hh(h + 1)} boşta"></button>`
+        : `<span class="cell ${past(h) ? "past" : ""}" title="${hh(h)}–${hh(h + 1)}${past(h) ? "" : " dolu"}"></span>`;
+    }).join("")}</div>`).join("");
+    $("bOut").innerHTML = head + sum + `<div class="bsep"></div>` + body;
+    $("bOut").querySelectorAll(".cell.free").forEach(c => c.onclick = () => {
+      const r = window._board.rows[+c.dataset.r], h = +c.dataset.h;
+      openWa("lender", r.id, `Merhaba ${r.name}, Hesap Makinesi Bul'dan yazıyorum. ${fmtDay(iso(window._board.day, hh(h)))} ${hh(h)}-${hh(h + 1)} arası sınavım var. ${r.model} hesap makineni ödünç alabilir miyim?`);
+    });
+  } catch (e) { if (seq === boardSeq) $("bOut").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+}
+for (const id of ["bDate", "bCampus", "bBasic"]) $(id).onchange = () => { if (id === "bCampus") store.set("hm_campus", $(id).value); loadBoard(); };
 
 // ÖDÜNÇ VER
 function addSlot(v = {}) {
@@ -452,7 +533,7 @@ $("rBtn").onclick = async () => {
 $("shareBtn").href = "https://wa.me/?text=" + encodeURIComponent("Sınav haftası hesap makinesi lazımsa ya da makineni ödünç verebilirsen: " + location.origin + location.pathname);
 
 renderMyLend(); loadStats();
-const h = location.hash.slice(1); if (["find", "lend", "reqs"].includes(h)) showTab(h);
+const h = location.hash.slice(1); if (TABS.includes(h)) showTab(h);
 </script>
 </body>
 </html>
