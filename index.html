@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hesap Makinesi Bul · YTÜ</title>
-<meta name="description" content="YTÜ sınav haftası için hesap makinesi ödünç al ya da ver. Sınav saatinde makinesi boşta olanı bul, WhatsApp'tan yaz.">
+<meta name="description" content="YTÜ sınav haftası için hesap makinesi lazımsa talep bırak, makinesi olan sana WhatsApp'tan yazsın.">
 <meta property="og:title" content="Hesap Makinesi Bul · YTÜ">
-<meta property="og:description" content="Sınavın için hesap makinesi mi lazım? O saatte makinesi boşta olan YTÜ'lüleri bul.">
+<meta property="og:description" content="Sınavın için hesap makinesi mi lazım? Talep bırak, makinesi olan YTÜ'lü sana yazsın.">
 <meta name="theme-color" content="#F2F0E9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0D1412" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231F7A66'/%3E%3Crect x='9' y='7' width='14' height='5' rx='1.5' fill='%23fff'/%3E%3Cg fill='%23fff'%3E%3Ccircle cx='11' cy='17' r='1.6'/%3E%3Ccircle cx='16' cy='17' r='1.6'/%3E%3Ccircle cx='21' cy='17' r='1.6'/%3E%3Ccircle cx='11' cy='22.5' r='1.6'/%3E%3Ccircle cx='16' cy='22.5' r='1.6'/%3E%3Ccircle cx='21' cy='22.5' r='1.6'/%3E%3C/g%3E%3C/svg%3E">
@@ -16,7 +16,7 @@
 <style>
   :root{
     --bg:#F2F0E9;--top:#ECE9E0;--card:#FFFFFF;--in:#F4F2EC;--text:#1F2A27;--sub:#6B7773;
-    --brand:#1F7A66;--brand-ink:#FFFFFF;--accent:#D9822B;--line:rgba(0,0,0,.07);--line2:rgba(0,0,0,.10);--seg-on:#FFFFFF;
+    --brand:#1F7A66;--brand-ink:#FFFFFF;--accent:#B86A1E;--line:rgba(0,0,0,.07);--line2:rgba(0,0,0,.10);--seg-on:#FFFFFF;
     --err-bg:#FBECEA;--err:#B3261E;--ok-bg:#E6F2EE;--ok:#1F7A66;--r:12px;
     --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px -8px rgba(0,0,0,.08);
     color-scheme:light;
@@ -39,14 +39,16 @@
   .logo svg{width:18px;height:18px}
   .brand{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:17px;letter-spacing:-.01em}
   .chip{font-size:11px;font-weight:600;color:var(--sub);border:1px solid var(--line2);border-radius:99px;padding:1px 8px}
-  .stats{margin-left:auto;font-size:12.5px;color:var(--sub);text-align:right;line-height:1.3}
+  .stats{margin-left:auto;font-size:12.5px;color:var(--sub);text-align:right}
   .stats b{color:var(--text);font-weight:600}
   .hero{padding:26px 0 16px}
   h1{font-family:"Space Grotesk",sans-serif;font-size:26px;line-height:1.15;letter-spacing:-.02em;margin:0 0 6px}
   .lead{color:var(--sub);margin:0}
   .seg{display:flex;gap:2px;padding:3px;border-radius:99px;background:var(--in);border:1px solid var(--line);margin:4px 0 16px}
-  .seg button{flex:1;min-width:0;white-space:nowrap;border:0;background:transparent;color:var(--sub);font:inherit;font-size:13.5px;font-weight:600;padding:8px 6px;border-radius:99px;cursor:pointer;transition:background-color .2s,color .2s,box-shadow .2s}
+  .seg button{flex:1;min-width:0;white-space:nowrap;border:0;background:transparent;color:var(--sub);font:inherit;font-size:14px;font-weight:600;padding:9px 6px;border-radius:99px;cursor:pointer;transition:background-color .2s,color .2s,box-shadow .2s}
   .seg button[aria-selected="true"]{background:var(--seg-on);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.08),0 1px 6px -2px rgba(0,0,0,.12)}
+  .seg .badge{display:inline-block;min-width:18px;padding:0 5px;margin-left:5px;border-radius:99px;background:var(--brand);color:var(--brand-ink);font-size:11px;line-height:18px;vertical-align:1px}
+  .seg .badge:empty{display:none}
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow)}
   h2{font-family:"Space Grotesk",sans-serif;font-size:17px;letter-spacing:-.01em;margin:0 0 2px}
   .hint{color:var(--sub);font-size:13.5px;margin:0 0 14px}
@@ -59,63 +61,39 @@
   input::placeholder{color:var(--sub);opacity:.7}
   .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .row label{margin-top:14px}
-  .check{display:flex;gap:10px;align-items:flex-start;font-weight:500;font-size:14px;margin-top:14px;cursor:pointer}
-  .check input{appearance:auto;-webkit-appearance:checkbox;width:18px;height:18px;margin:1px 0 0;flex:none;accent-color:var(--brand);padding:0}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;height:46px;margin-top:18px;border:0;border-radius:10px;background:var(--brand);color:var(--brand-ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;transition:opacity .15s,transform .1s}
   .btn:active{transform:scale(.99)}
   .btn:disabled{opacity:.55;cursor:default}
   .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line2)}
   .btn.danger{background:transparent;color:var(--err);border:1px solid var(--line2)}
-  .btn.sm{width:auto;height:36px;padding:0 14px;margin:0;font-size:13.5px;border-radius:9px}
-  .slot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;gap:6px;padding:10px;margin-bottom:8px;border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--in) 50%,transparent)}
-  .slot input[type=date]{grid-column:1 / -1}
-  .icon-btn{border:1px solid var(--line2);background:transparent;color:var(--sub);border-radius:10px;height:44px;cursor:pointer;display:grid;place-items:center}
-  .icon-btn svg{width:14px;height:14px}
-  .list{margin-top:6px}
+  .btn.sm{width:auto;height:36px;padding:0 14px;margin:0;font-size:13.5px;border-radius:9px;flex:none}
+  .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px}
+  .pills{display:flex;gap:2px;padding:3px;border-radius:99px;background:var(--in);border:1px solid var(--line)}
+  .pills button{border:0;background:transparent;color:var(--sub);font:inherit;font-size:13px;font-weight:600;padding:5px 12px;border-radius:99px;cursor:pointer}
+  .pills button[aria-pressed="true"]{background:var(--seg-on);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .filters select{width:auto;height:36px;font-size:13.5px;border-radius:99px;padding:0 30px 0 12px;background-position:calc(100% - 15px) 15px,calc(100% - 10px) 15px;flex:1;min-width:140px}
+  .list{margin-top:4px}
   .item{display:flex;gap:12px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
   .item:first-child{border-top:0}
   .item .info{flex:1;min-width:0}
-  .item .name{font-weight:600}
-  .meta{color:var(--sub);font-size:13.5px}
+  .when{font-weight:700;font-size:15px}
+  .name{font-size:13.5px;color:var(--sub)}
+  .name b{color:var(--text);font-weight:600}
   .note{color:var(--sub);font-size:13px;margin-top:3px;overflow-wrap:anywhere}
-  .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+  .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
   .tag{font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--in);color:var(--sub);border:1px solid var(--line)}
-  .tag.on{color:var(--brand);border-color:color-mix(in srgb,var(--brand) 30%,transparent)}
-  .tag.warn{color:var(--accent)}
-  .count{font-size:13px;color:var(--sub);margin:18px 0 0}
+  .tag.soon{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,transparent)}
   .msg{padding:11px 13px;border-radius:10px;font-size:14px;margin-top:14px}
   .msg.err{background:var(--err-bg);color:var(--err)}
   .msg.ok{background:var(--ok-bg);color:var(--ok)}
-  .empty{text-align:center;color:var(--sub);padding:18px 6px 4px;font-size:14px}
+  .msg .btn{margin-top:10px}
+  .empty{text-align:center;color:var(--sub);padding:22px 6px 10px;font-size:14px}
   .empty .btn{margin-top:12px}
-  .status{display:flex;gap:12px;align-items:center;justify-content:space-between}
-  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--brand);margin-right:7px;vertical-align:1px}
-  .board-ctl{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .board-ctl label{margin-top:0}
-  #board .check{margin-top:16px}
-  .legend{display:flex;gap:14px;font-size:12.5px;color:var(--sub);margin:14px 0 4px;flex-wrap:wrap}
-  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-  .board{margin-top:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .brow{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px;align-items:center}
-  .brow+.brow{margin-top:10px}
-  .brow.sum{margin-top:2px}
-  .brow.head{font-size:10.5px;color:var(--sub);font-variant-numeric:tabular-nums}
-  .brow.head span{text-align:center}
-  .brow.sum span{font-size:11px;font-weight:700;text-align:center;color:var(--brand);font-variant-numeric:tabular-nums}
-  .brow.sum span.zero{color:var(--sub);font-weight:500}
-  .bname{grid-column:1 / -1;min-width:0;line-height:1.25;display:flex;gap:8px;align-items:baseline}
-  .bname b{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .bname small{min-width:0;font-size:12px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .cell{height:28px;border-radius:5px;border:0;padding:0;background:color-mix(in srgb,var(--text) 6%,transparent);box-shadow:inset 0 0 0 1px var(--line)}
-  .cell.free{background:color-mix(in srgb,var(--brand) 78%,transparent);box-shadow:none;cursor:pointer}
-  .cell.free:hover{background:var(--brand)}
-  .cell.past{opacity:.35;cursor:default}
-  .bsep{height:1px;background:var(--line);margin:10px 0 8px}
   .share{display:flex;gap:12px;align-items:center;justify-content:space-between}
-  .share .meta{flex:1}
+  .share .meta{flex:1;color:var(--sub);font-size:13.5px}
   .hidden{display:none!important}
   footer{color:var(--sub);font-size:12px;text-align:center;padding:10px 16px 36px}
-  @media (max-width:380px){ h1{font-size:23px} .stats{display:none} .seg button{font-size:12.5px;padding:8px 2px} }
+  @media (max-width:380px){ h1{font-size:23px} }
 </style>
 </head>
 <body>
@@ -126,99 +104,31 @@
     </div>
     <span class="brand">Hesap Makinesi Bul</span>
     <span class="chip">YTÜ</span>
-    <div class="stats" id="stats"><b id="stL">–</b> makine<br><b id="stR">–</b> açık talep</div>
+    <div class="stats"><b id="stR">–</b> açık talep</div>
   </div>
 </div>
 
 <main class="wrap">
   <div class="hero">
     <h1>Sınavına hesap makinesi bul.</h1>
-    <p class="lead">O saatte kendi sınavı olmayan ve makinesini verebilecek YTÜ'lüleri listeler. Tek tıkla WhatsApp'tan yazarsın.</p>
+    <p class="lead">Makine lazımsa talep bırak. Makinesi olan biri talebini görüp sana WhatsApp'tan yazar.</p>
   </div>
 
   <div class="seg" role="tablist" aria-label="Bölümler">
-    <button role="tab" data-tab="find" aria-selected="true">Bul</button>
-    <button role="tab" data-tab="board" aria-selected="false">Müsaitlik</button>
-    <button role="tab" data-tab="lend" aria-selected="false">Ödünç ver</button>
-    <button role="tab" data-tab="reqs" aria-selected="false">Talepler</button>
+    <button role="tab" data-tab="need" aria-selected="true">Makine lazım</button>
+    <button role="tab" data-tab="give" aria-selected="false">Ödünç ver<span class="badge" id="giveBadge"></span></button>
   </div>
 
-  <!-- BUL -->
-  <section id="find">
-    <div class="card">
-      <h2>Sınavın ne zaman?</h2>
-      <p class="hint">Tarihi, saat aralığını ve kampüsü seç.</p>
-      <label for="fDate">Tarih</label>
-      <input type="date" id="fDate">
-      <div class="row">
-        <div><label for="fStart">Başlangıç</label><input type="time" id="fStart" value="10:00"></div>
-        <div><label for="fEnd">Bitiş</label><input type="time" id="fEnd" value="12:00"></div>
-      </div>
-      <label for="fCampus">Kampüs</label>
-      <select id="fCampus"></select>
-      <label class="check"><input type="checkbox" id="fBasic" checked> Sadece sınavlarda izinli (programlanamayan) modeller</label>
-      <button class="btn" id="fBtn">Ara</button>
-      <div id="fOut"></div>
+  <!-- MAKİNE LAZIM -->
+  <section id="need">
+    <div class="card hidden" id="mine">
+      <h2>Taleplerin</h2>
+      <p class="hint">Makineyi bulunca talebini kapat, başkaları boşuna yazmasın.</p>
+      <div id="mineList" class="list"></div>
     </div>
-  </section>
-
-  <!-- MÜSAİTLİK -->
-  <section id="board" class="hidden">
     <div class="card">
-      <h2>Hangi saatte hangi makine boşta?</h2>
-      <p class="hint">Seçtiğin gün için tüm makinelerin saat saat durumu. Boş bir kutuya dokunursan o saat için sahibine WhatsApp'tan yazarsın.</p>
-      <div class="board-ctl">
-        <div><label for="bDate">Gün</label><input type="date" id="bDate"></div>
-        <div><label for="bCampus">Kampüs</label><select id="bCampus"></select></div>
-      </div>
-      <label class="check"><input type="checkbox" id="bBasic" checked> Sadece sınavlarda izinli modeller</label>
-      <div class="legend"><span><i style="background:color-mix(in srgb,var(--brand) 78%,transparent)"></i>Boşta</span><span><i style="background:color-mix(in srgb,var(--text) 6%,transparent);box-shadow:inset 0 0 0 1px var(--line2)"></i>Sahibi kullanıyor</span></div>
-      <div id="bOut" class="board"><div class="empty">Yükleniyor</div></div>
-    </div>
-  </section>
-
-  <!-- ÖDÜNÇ VER -->
-  <section id="lend" class="hidden">
-    <div class="card hidden" id="myLend"></div>
-    <div class="card">
-      <h2 id="lTitle">Makineni ödünç ver</h2>
-      <p class="hint">Bir kez kayıt ol. Kendi sınav saatlerinde ve 30 dakika öncesi ile sonrasında listede görünmezsin. Numaran listede yer almaz, yalnızca biri sana yazmak istediğinde kullanılır.</p>
-      <label for="lName">Adın</label>
-      <input id="lName" maxlength="40" autocomplete="given-name" placeholder="Örn. Mansur U.">
-      <label for="lPhone">WhatsApp numaran</label>
-      <input id="lPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="5XX XXX XX XX">
-      <label for="lModel">Hesap makinesi modeli</label>
-      <input id="lModel" list="models" maxlength="40" placeholder="Örn. Casio fx-991EX">
-      <label class="check"><input type="checkbox" id="lProg"> Programlanabilir ya da grafik hesap makinesi (çoğu sınavda yasak)</label>
-      <div class="row">
-        <div><label for="lCampus">Kampüs</label><select id="lCampus"></select></div>
-        <div><label for="lUntil">Şu tarihe kadar</label><input type="date" id="lUntil"></div>
-      </div>
-      <label for="lNote">Not <span class="meta">(isteğe bağlı)</span></label>
-      <input id="lNote" maxlength="200" placeholder="Örn. EEF önünde teslim edebilirim, sabahları kampüsteyim">
-      <label>Kendi sınav saatlerin</label>
-      <p class="hint" style="margin-top:-2px">Makineyi kendin kullanacağın saatler. Kampüste olmayacağın zamanları da ekleyebilirsin.</p>
-      <div id="slots"></div>
-      <button class="btn ghost sm" id="addSlot" type="button">Saat ekle</button>
-      <button class="btn" id="lBtn">Kaydet</button>
-      <div id="lOut"></div>
-    </div>
-  </section>
-
-  <!-- TALEPLER -->
-  <section id="reqs" class="hidden">
-    <div class="card">
-      <h2>Makine arayanlar</h2>
-      <p class="hint">Makinen o saatte boştaysa doğrudan yaz.</p>
-      <div id="rList" class="list"><div class="empty">Yükleniyor</div></div>
-    </div>
-    <div class="card" id="reqForm">
-      <h2>Talep bırak</h2>
-      <p class="hint">Aramada kimse çıkmadıysa talebini bırak, makinesi olanlar sana yazsın.</p>
-      <label for="rName">Adın</label>
-      <input id="rName" maxlength="40" autocomplete="given-name">
-      <label for="rPhone">WhatsApp numaran</label>
-      <input id="rPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="5XX XXX XX XX">
+      <h2>Ne zaman lazım?</h2>
+      <p class="hint">Sınavının saatini yaz. Talebin sınav bitene kadar listede kalır.</p>
       <label for="rDate">Sınav tarihi</label>
       <input type="date" id="rDate">
       <div class="row">
@@ -227,17 +137,38 @@
       </div>
       <label for="rCampus">Kampüs</label>
       <select id="rCampus"></select>
-      <label for="rModel">Model tercihi <span class="meta">(isteğe bağlı)</span></label>
-      <input id="rModel" list="models" maxlength="40" placeholder="Örn. fx-991 olursa iyi olur">
-      <label for="rNote">Not <span class="meta">(isteğe bağlı)</span></label>
+      <div class="row">
+        <div><label for="rName">Adın</label><input id="rName" maxlength="40" autocomplete="given-name"></div>
+        <div><label for="rPhone">WhatsApp numaran</label><input id="rPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="5XX XXX XX XX"></div>
+      </div>
+      <label for="rModel">Model <span class="name">(isteğe bağlı)</span></label>
+      <input id="rModel" list="models" maxlength="40" placeholder="Örn. fx-991 ya da programlanamayan herhangi biri">
+      <label for="rNote">Not <span class="name">(isteğe bağlı)</span></label>
       <input id="rNote" maxlength="200" placeholder="Örn. Matematik 1 vizesi, B blok">
       <button class="btn" id="rBtn">Talep bırak</button>
       <div id="rOut"></div>
     </div>
   </section>
 
+  <!-- ÖDÜNÇ VER -->
+  <section id="give" class="hidden">
+    <div class="card">
+      <h2>Makine arayanlar</h2>
+      <p class="hint">Makinen o saatte boştaysa "Verebilirim"e bas, WhatsApp'tan hazır mesajla yazarsın. Kayıt olman gerekmiyor.</p>
+      <div class="filters">
+        <div class="pills" role="group" aria-label="Gün">
+          <button data-day="all" aria-pressed="true">Tümü</button>
+          <button data-day="today" aria-pressed="false">Bugün</button>
+          <button data-day="tomorrow" aria-pressed="false">Yarın</button>
+        </div>
+        <select id="gCampus" aria-label="Kampüs"></select>
+      </div>
+      <div id="gList" class="list"><div class="empty">Yükleniyor</div></div>
+    </div>
+  </section>
+
   <div class="card share">
-    <span class="meta">Ne kadar çok kişi kayıt olursa o kadar işe yarar.</span>
+    <span class="meta">Siteyi gruplara at, ne kadar çok kişi bakarsa o kadar hızlı makine bulunur.</span>
     <a class="btn ghost sm" id="shareBtn" target="_blank" rel="noopener">Gruba paylaş</a>
   </div>
 </main>
@@ -253,7 +184,7 @@
 const SB_URL = "https://vrhogufuhskmhakcppzm.supabase.co";
 const SB_KEY = "sb_publishable_GjxApM76XEhcbeCYptXw2g_arPmfx6q";
 const CAMPUSES = ["Davutpaşa", "Yıldız (Beşiktaş)", "Diğer"];
-const X_ICON = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l8 8M11 3l-8 8"/></svg>';
+const SITE = location.origin + location.pathname;
 const $ = id => document.getElementById(id);
 
 async function rpc(fn, args = {}) {
@@ -280,260 +211,153 @@ const store = {
 const iso = (date, time) => `${date}T${time}:00+03:00`;
 const todayStr = (add = 0) => new Date(Date.now() + 3 * 3600e3 + add * 864e5).toISOString().slice(0, 10);
 const nowHM = () => new Date(Date.now() + 3 * 3600e3).toISOString().slice(11, 16);
+const dayOf = s => new Date(new Date(s).getTime() + 3 * 3600e3).toISOString().slice(0, 10);
 const TZ = { timeZone: "Europe/Istanbul" };
-const fmtDay = s => new Date(s).toLocaleDateString("tr-TR", { ...TZ, day: "numeric", month: "long", weekday: "long" });
 const fmtT = s => new Date(s).toLocaleTimeString("tr-TR", { ...TZ, hour: "2-digit", minute: "2-digit" });
-const fmtDate = d => new Date(d + "T12:00:00+03:00").toLocaleDateString("tr-TR", { ...TZ, day: "numeric", month: "long" });
-const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const msg = (el, text, ok) => { $(el).innerHTML = `<div class="msg ${ok ? "ok" : "err"}" role="status">${esc(text)}</div>`; };
-const parts = s => { const d = new Date(new Date(s).getTime() + 3 * 3600e3).toISOString(); return { date: d.slice(0, 10), time: d.slice(11, 16) }; };
-const busy = (btn, on, label) => { btn.disabled = on; if (label) btn.textContent = label; };
-
-function checkRange(date, s, e) {
-  if (!date || !s || !e) return "Tarih ve saatleri doldur.";
-  if (e <= s) return "Bitiş saati başlangıçtan sonra olmalı.";
-  if (date < todayStr() || (date === todayStr() && e <= nowHM())) return "Geçmiş bir saat seçtin.";
-  return null;
+const fmtDayLong = s => new Date(s).toLocaleDateString("tr-TR", { ...TZ, day: "numeric", month: "long", weekday: "long" });
+function dayLabel(s) {
+  const d = dayOf(s);
+  if (d === todayStr()) return "Bugün";
+  if (d === todayStr(1)) return "Yarın";
+  return new Date(s).toLocaleDateString("tr-TR", { ...TZ, day: "numeric", month: "long", weekday: "short" });
 }
+const when = r => `${dayLabel(r.starts_at)}, <span style="white-space:nowrap">${fmtT(r.starts_at)}–${fmtT(r.ends_at)}</span>`;
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const msg = (el, html, ok) => { $(el).innerHTML = `<div class="msg ${ok ? "ok" : "err"}" role="status">${html}</div>`; };
+const busy = (btn, on, label) => { btn.disabled = on; btn.textContent = label; };
 
 // başlangıç
-const TABS = ["find", "board", "lend", "reqs"];
-for (const id of ["fCampus", "bCampus", "lCampus", "rCampus"]) {
-  $(id).innerHTML = CAMPUSES.map(c => `<option>${c}</option>`).join("");
-  $(id).value = store.get("hm_campus", CAMPUSES[0]);
-  if (!$(id).value) $(id).value = CAMPUSES[0];
-}
-for (const id of ["fDate", "rDate", "bDate"]) { $(id).value = todayStr(); $(id).min = todayStr(); }
-$("lUntil").value = todayStr(21); $("lUntil").min = todayStr(); $("lUntil").max = todayStr(120);
+const lastCampus = store.get("hm_campus", CAMPUSES[0]);
+$("rCampus").innerHTML = CAMPUSES.map(c => `<option>${c}</option>`).join("");
+$("rCampus").value = CAMPUSES.includes(lastCampus) ? lastCampus : CAMPUSES[0];
+$("gCampus").innerHTML = `<option value="">Tüm kampüsler</option>` + CAMPUSES.map(c => `<option>${c}</option>`).join("");
+$("rDate").value = todayStr(); $("rDate").min = todayStr(); $("rDate").max = todayStr(120);
+const saved = store.get("hm_me", {});
+if (saved.name) $("rName").value = saved.name;
+if (saved.phone) $("rPhone").value = saved.phone;
 
 // sekmeler
+const TABS = ["need", "give"];
 document.querySelectorAll(".seg button").forEach(b => b.onclick = () => showTab(b.dataset.tab));
 function showTab(t) {
   document.querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === t)));
   for (const s of TABS) $(s).classList.toggle("hidden", s !== t);
-  if (t === "reqs") loadRequests();
-  if (t === "board") loadBoard();
   history.replaceState(null, "", "#" + t);
+  load();
 }
 
-async function loadStats() {
-  try { const s = await rpc("hm_stats"); $("stL").textContent = s.lenders; $("stR").textContent = s.requests; window._stats = s; } catch {}
+// veriler
+let all = [], dayFilter = "all";
+async function load() {
+  try {
+    all = await rpc("hm_list_requests");
+    const mineIds = new Set(store.get("hm_reqs", []).map(m => m.id));
+    // süresi dolan/kapanan kendi taleplerini yerelden temizle
+    store.set("hm_reqs", store.get("hm_reqs", []).filter(m => all.some(r => r.id === m.id)));
+    const others = all.filter(r => !mineIds.has(r.id));
+    $("stR").textContent = all.length;
+    $("giveBadge").textContent = others.length || "";
+    renderMine(); renderGive();
+  } catch (e) {
+    $("gList").innerHTML = `<div class="msg err">${esc(e.message)}</div>`;
+  }
 }
 
-async function openWa(kind, id, text) {
+function renderMine() {
+  const ids = new Set(store.get("hm_reqs", []).map(m => m.id));
+  const mine = all.filter(r => ids.has(r.id));
+  $("mine").classList.toggle("hidden", !mine.length);
+  $("mineList").innerHTML = mine.map(r => `
+    <div class="item"><div class="info">
+      <div class="when">${when(r)}</div>
+      <div class="tags"><span class="tag">${esc(r.campus)}</span>${r.model_pref ? `<span class="tag">${esc(r.model_pref)}</span>` : ""}</div>
+    </div><button class="btn danger sm" data-close="${r.id}">Buldum, kapat</button></div>`).join("");
+  $("mineList").querySelectorAll("[data-close]").forEach(b => b.onclick = () => closeReq(b.dataset.close, b));
+}
+
+function renderGive() {
+  const ids = new Set(store.get("hm_reqs", []).map(m => m.id));
+  const campus = $("gCampus").value;
+  const list = all.filter(r => !ids.has(r.id))
+    .filter(r => !campus || r.campus === campus)
+    .filter(r => dayFilter === "all" || dayOf(r.starts_at) === (dayFilter === "today" ? todayStr() : todayStr(1)));
+  if (!list.length) {
+    const any = all.some(r => !ids.has(r.id));
+    $("gList").innerHTML = `<div class="empty">${any ? "Bu filtrede açık talep yok." : "Şu an makine arayan yok. Sınav haftasında buraya göz at ya da siteyi gruba paylaş."}</div>`;
+    return;
+  }
+  const soon = r => new Date(r.starts_at) - Date.now() < 3 * 3600e3;
+  $("gList").innerHTML = list.map(r => `
+    <div class="item"><div class="info">
+      <div class="when">${when(r)}</div>
+      <div class="name"><b>${esc(r.name)}</b> arıyor</div>
+      <div class="tags"><span class="tag">${esc(r.campus)}</span>${r.model_pref ? `<span class="tag">${esc(r.model_pref)}</span>` : ""}${soon(r) ? '<span class="tag soon">Yakında</span>' : ""}</div>
+      ${r.note ? `<div class="note">${esc(r.note)}</div>` : ""}
+    </div><button class="btn sm" data-wa="${r.id}">Verebilirim</button></div>`).join("");
+  $("gList").querySelectorAll("[data-wa]").forEach(b => b.onclick = () => give(all.find(r => r.id === b.dataset.wa)));
+}
+
+document.querySelectorAll(".pills button").forEach(b => b.onclick = () => {
+  dayFilter = b.dataset.day;
+  document.querySelectorAll(".pills button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  renderGive();
+});
+$("gCampus").onchange = renderGive;
+
+async function give(r) {
+  if (!r) return;
   // Pencereyi tıklama anında aç (açılır pencere engelleyicisine takılmasın), numarayı sonra yükle
   const w = window.open("about:blank", "_blank");
   try {
-    const phone = await rpc("hm_contact", { p_kind: kind, p_id: id });
-    if (!phone) throw new Error("Bu kayıt artık yok.");
+    const phone = await rpc("hm_contact", { p_kind: "request", p_id: r.id });
+    if (!phone) throw new Error("Bu talep kapanmış, makine bulunmuş olabilir.");
+    const text = `Merhaba ${r.name}, Hesap Makinesi Bul'daki talebini gördüm. ${fmtDayLong(r.starts_at)} ${fmtT(r.starts_at)} sınavın için hesap makinemi verebilirim.`;
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
     if (w && !w.closed) w.location.href = url; else location.href = url;
-  } catch (e) { if (w) w.close(); alert(e.message); }
+  } catch (e) { if (w) w.close(); alert(e.message); load(); }
 }
 
-// BUL
-$("fBtn").onclick = async () => {
-  const date = $("fDate").value, s = $("fStart").value, e = $("fEnd").value, campus = $("fCampus").value;
-  const bad = checkRange(date, s, e); if (bad) return msg("fOut", bad);
-  store.set("hm_campus", campus);
-  busy($("fBtn"), true, "Aranıyor");
-  try {
-    const list = await rpc("hm_search", { p_start: iso(date, s), p_end: iso(date, e), p_campus: campus, p_only_basic: $("fBasic").checked });
-    window._find = { date, s, e, list };
-    if (!list.length) {
-      const none = window._stats && window._stats.lenders === 0;
-      $("fOut").innerHTML = `<div class="empty">${none ? "Henüz kimse makinesini eklemedi. Makinen varsa Ödünç ver sekmesinden ekleyebilirsin." : "Bu saatte boşta makine bulunamadı."}<br><button class="btn sm" id="toReq">Talep bırak</button></div>`;
-      $("toReq").onclick = prefillReq;
-      return;
-    }
-    $("fOut").innerHTML = `<p class="count">${list.length} kişi bu saatte verebilir</p><div class="list">` + list.map((l, i) => `
-      <div class="item"><div class="info">
-        <div class="name">${esc(l.name)}</div>
-        <div class="meta">${esc(l.model)}</div>
-        <div class="tags"><span class="tag ${l.same_campus ? "on" : ""}">${esc(l.campus)}</span>${l.programmable ? '<span class="tag warn">Programlanabilir</span>' : ""}</div>
-        ${l.note ? `<div class="note">${esc(l.note)}</div>` : ""}
-      </div><button class="btn sm" data-i="${i}">WhatsApp'tan yaz</button></div>`).join("") + `</div>`;
-    $("fOut").querySelectorAll("[data-i]").forEach(b => b.onclick = () => contactLender(+b.dataset.i));
-  } catch (err) { msg("fOut", err.message); }
-  finally { busy($("fBtn"), false, "Ara"); }
-};
-function contactLender(i) {
-  const { date, s, e, list } = window._find, l = list[i];
-  openWa("lender", l.id, `Merhaba ${l.name}, Hesap Makinesi Bul'dan yazıyorum. ${fmtDay(iso(date, s))} ${s}-${e} arası sınavım var. ${l.model} hesap makineni ödünç alabilir miyim?`);
-}
-function prefillReq() {
-  $("rDate").value = $("fDate").value; $("rStart").value = $("fStart").value; $("rEnd").value = $("fEnd").value; $("rCampus").value = $("fCampus").value;
-  showTab("reqs"); $("reqForm").scrollIntoView({ behavior: "smooth", block: "start" }); setTimeout(() => $("rName").focus(), 300);
-}
-
-// MÜSAİTLİK: her saat dilimi için aynı arama kuralı (sınav saati + 30 dk tampon) uygulanır
-const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-const hh = h => String(h).padStart(2, "0") + ":00";
-let boardSeq = 0;
-async function loadBoard() {
-  const day = $("bDate").value, campus = $("bCampus").value, basic = $("bBasic").checked;
-  if (!day) return;
-  const seq = ++boardSeq;
-  $("bOut").innerHTML = `<div class="empty">Yükleniyor</div>`;
-  try {
-    const res = await Promise.all(HOURS.map(h => rpc("hm_search", { p_start: iso(day, hh(h)), p_end: iso(day, hh(h + 1)), p_campus: campus, p_only_basic: basic })));
-    if (seq !== boardSeq) return;
-    const map = new Map();
-    res.forEach((list, k) => list.forEach(l => {
-      if (!map.has(l.id)) map.set(l.id, { ...l, free: new Set() });
-      map.get(l.id).free.add(HOURS[k]);
-    }));
-    const rows = [...map.values()].sort((a, b) => (b.same_campus - a.same_campus) || (b.free.size - a.free.size) || a.name.localeCompare(b.name, "tr"));
-    window._board = { day, rows };
-    if (!rows.length) {
-      $("bOut").innerHTML = `<div class="empty">${window._stats && window._stats.lenders === 0 ? "Henüz kimse makinesini eklemedi." : "Bu gün için boşta makine yok."}</div>`;
-      return;
-    }
-    const isToday = day === todayStr(), nowH = +nowHM().slice(0, 2);
-    const past = h => isToday && h + 1 <= nowH;
-    const head = `<div class="brow head">${HOURS.map(h => `<span>${h % 2 === 0 ? h : ""}</span>`).join("")}</div>`;
-    const sum = `<div class="brow sum" title="O saatte boşta olan makine sayısı"><div class="bname"><small>Saat başına boşta makine</small></div>${HOURS.map((h, k) => `<span class="${res[k].length ? "" : "zero"}">${past(h) ? "" : res[k].length}</span>`).join("")}</div>`;
-    const body = rows.map((r, i) => `<div class="brow"><div class="bname"><b>${esc(r.name)}</b><small>${esc(r.model)} · ${esc(r.campus)}</small></div>${HOURS.map(h => {
-      const f = r.free.has(h);
-      return f && !past(h)
-        ? `<button class="cell free" data-r="${i}" data-h="${h}" aria-label="${esc(r.name)}, ${hh(h)}–${hh(h + 1)} boşta" title="${hh(h)}–${hh(h + 1)} boşta"></button>`
-        : `<span class="cell ${past(h) ? "past" : ""}" title="${hh(h)}–${hh(h + 1)}${past(h) ? "" : " dolu"}"></span>`;
-    }).join("")}</div>`).join("");
-    $("bOut").innerHTML = head + sum + `<div class="bsep"></div>` + body;
-    $("bOut").querySelectorAll(".cell.free").forEach(c => c.onclick = () => {
-      const r = window._board.rows[+c.dataset.r], h = +c.dataset.h;
-      openWa("lender", r.id, `Merhaba ${r.name}, Hesap Makinesi Bul'dan yazıyorum. ${fmtDay(iso(window._board.day, hh(h)))} ${hh(h)}-${hh(h + 1)} arası sınavım var. ${r.model} hesap makineni ödünç alabilir miyim?`);
-    });
-  } catch (e) { if (seq === boardSeq) $("bOut").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
-}
-for (const id of ["bDate", "bCampus", "bBasic"]) $(id).onchange = () => { if (id === "bCampus") store.set("hm_campus", $(id).value); loadBoard(); };
-
-// ÖDÜNÇ VER
-function addSlot(v = {}) {
-  const div = document.createElement("div"); div.className = "slot";
-  div.innerHTML = `<input type="date" aria-label="Sınav tarihi" value="${v.date || todayStr()}" min="${todayStr()}"><input type="time" aria-label="Başlangıç" value="${v.s || "10:00"}"><input type="time" aria-label="Bitiş" value="${v.e || "12:00"}"><button type="button" class="icon-btn" aria-label="Saati sil">${X_ICON}</button>`;
-  div.querySelector("button").onclick = () => div.remove();
-  $("slots").appendChild(div);
-}
-$("addSlot").onclick = () => addSlot();
-
-function readSlots() {
-  const out = [];
-  for (const row of $("slots").children) {
-    const [d, s, e] = row.querySelectorAll("input");
-    if (!d.value || !s.value || !e.value) continue;
-    if (e.value <= s.value) throw new Error("Sınav saatlerinde bitiş, başlangıçtan sonra olmalı.");
-    out.push({ s: iso(d.value, s.value), e: iso(d.value, e.value) });
-  }
-  return out;
-}
-function lenderArgs() {
-  return {
-    p_name: $("lName").value, p_phone: $("lPhone").value, p_model: $("lModel").value, p_programmable: $("lProg").checked,
-    p_campus: $("lCampus").value, p_note: $("lNote").value, p_until: $("lUntil").value, p_busy: readSlots()
-  };
-}
-
-async function renderMyLend() {
-  const me = store.get("hm_lender", null);
-  if (!me) {
-    $("myLend").classList.add("hidden"); $("lTitle").textContent = "Makineni ödünç ver"; $("lBtn").textContent = "Kaydet";
-    if (!$("slots").children.length) addSlot();
-    return;
-  }
-  try {
-    const d = await rpc("hm_get_lender", { p_id: me.id, p_token: me.token });
-    if (!d) { store.set("hm_lender", null); return renderMyLend(); }
-    $("myLend").classList.remove("hidden");
-    $("myLend").innerHTML = `<div class="status"><div><h2><span class="dot"></span>Kaydın aktif</h2>
-      <p class="hint" style="margin:0">${esc(d.model)} · ${esc(d.campus)} · ${fmtDate(d.available_until)} tarihine kadar listeleniyorsun.</p></div>
-      <button class="btn danger sm" id="delMe">Sil</button></div>`;
-    $("delMe").onclick = async () => {
-      if (!confirm("Kaydın silinsin mi? Artık aramalarda görünmezsin.")) return;
-      try { await rpc("hm_delete_lender", { p_id: me.id, p_token: me.token }); } catch (e) { return alert(e.message); }
-      store.set("hm_lender", null);
-      for (const id of ["lName", "lPhone", "lModel", "lNote"]) $(id).value = "";
-      $("lProg").checked = false; $("slots").innerHTML = ""; $("lUntil").value = todayStr(21);
-      renderMyLend(); loadStats(); msg("lOut", "Kaydın silindi.", true);
-    };
-    $("lTitle").textContent = "Kaydını düzenle"; $("lBtn").textContent = "Güncelle";
-    $("lName").value = d.name; $("lPhone").value = "0" + d.phone.slice(2); $("lModel").value = d.model; $("lProg").checked = d.programmable;
-    $("lCampus").value = d.campus; $("lNote").value = d.note || ""; $("lUntil").value = d.available_until;
-    $("slots").innerHTML = "";
-    d.busy.forEach(b => { const a = parts(b.s); addSlot({ date: a.date, s: a.time, e: parts(b.e).time }); });
-    if (!d.busy.length) addSlot();
-  } catch (e) { msg("lOut", e.message); }
-}
-
-$("lBtn").onclick = async () => {
-  const me = store.get("hm_lender", null);
-  let a; try { a = lenderArgs(); } catch (e) { return msg("lOut", e.message); }
-  busy($("lBtn"), true, "Kaydediliyor");
-  try {
-    store.set("hm_campus", a.p_campus);
-    if (me) {
-      await rpc("hm_update_lender", { p_id: me.id, p_token: me.token, ...a });
-      await renderMyLend(); msg("lOut", "Kaydın güncellendi.", true);
-    } else {
-      const r = await rpc("hm_create_lender", a); store.set("hm_lender", r);
-      await renderMyLend(); msg("lOut", "Kaydedildi. Sınav saatlerin dışında arayanlara görünüyorsun. Teşekkürler.", true);
-    }
-    loadStats();
-  } catch (e) { msg("lOut", e.message); }
-  finally { busy($("lBtn"), false, store.get("hm_lender", null) ? "Güncelle" : "Kaydet"); }
-};
-
-// TALEPLER
-async function loadRequests() {
-  try {
-    const mine = store.get("hm_reqs", []);
-    const list = await rpc("hm_list_requests");
-    window._reqs = list;
-    if (!list.length) { $("rList").innerHTML = `<div class="empty">Şu an açık talep yok.</div>`; return; }
-    $("rList").innerHTML = list.map((r, i) => {
-      const my = mine.some(m => m.id === r.id);
-      return `<div class="item"><div class="info">
-        <div class="name">${esc(r.name)}${my ? ' <span class="meta">(senin talebin)</span>' : ""}</div>
-        <div class="meta">${fmtDay(r.starts_at)}, ${fmtT(r.starts_at)}–${fmtT(r.ends_at)}</div>
-        <div class="tags"><span class="tag">${esc(r.campus)}</span>${r.model_pref ? `<span class="tag">${esc(r.model_pref)}</span>` : ""}</div>
-        ${r.note ? `<div class="note">${esc(r.note)}</div>` : ""}
-      </div>${my ? `<button class="btn danger sm" data-close="${i}">Buldum, kapat</button>` : `<button class="btn sm" data-wa="${i}">Verebilirim</button>`}</div>`;
-    }).join("");
-    $("rList").querySelectorAll("[data-wa]").forEach(b => b.onclick = () => contactReq(+b.dataset.wa));
-    $("rList").querySelectorAll("[data-close]").forEach(b => b.onclick = () => closeReq(window._reqs[+b.dataset.close].id));
-  } catch (e) { $("rList").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
-}
-function contactReq(i) {
-  const r = window._reqs[i];
-  openWa("request", r.id, `Merhaba ${r.name}, Hesap Makinesi Bul'daki talebini gördüm. ${fmtDay(r.starts_at)} ${fmtT(r.starts_at)} sınavın için hesap makinemi verebilirim.`);
-}
-async function closeReq(id) {
+async function closeReq(id, btn) {
   const m = store.get("hm_reqs", []).find(x => x.id === id);
   if (!m) return;
-  try { await rpc("hm_close_request", { p_id: id, p_token: m.token }); } catch (e) { return alert(e.message); }
+  btn.disabled = true;
+  try { await rpc("hm_close_request", { p_id: id, p_token: m.token }); }
+  catch (e) { btn.disabled = false; return alert(e.message); }
   store.set("hm_reqs", store.get("hm_reqs", []).filter(x => x.id !== id));
-  loadRequests(); loadStats();
+  $("rOut").innerHTML = "";
+  load();
 }
+
 $("rBtn").onclick = async () => {
   const date = $("rDate").value, s = $("rStart").value, e = $("rEnd").value;
-  const bad = checkRange(date, s, e); if (bad) return msg("rOut", bad);
+  if (!date || !s || !e) return msg("rOut", "Tarih ve saatleri doldur.");
+  if (e <= s) return msg("rOut", "Bitiş saati başlangıçtan sonra olmalı.");
+  if (date < todayStr() || (date === todayStr() && e <= nowHM())) return msg("rOut", "Geçmiş bir saat seçtin.");
   busy($("rBtn"), true, "Gönderiliyor");
   try {
     const r = await rpc("hm_create_request", { p_name: $("rName").value, p_phone: $("rPhone").value, p_campus: $("rCampus").value,
       p_model_pref: $("rModel").value, p_start: iso(date, s), p_end: iso(date, e), p_note: $("rNote").value });
     store.set("hm_reqs", [...store.get("hm_reqs", []), r]);
     store.set("hm_campus", $("rCampus").value);
-    msg("rOut", "Talebin yayında. Makinesi olan biri WhatsApp'tan yazacak. Bulunca listeden kapatmayı unutma.", true);
-    loadRequests(); loadStats();
-  } catch (err) { msg("rOut", err.message); }
+    store.set("hm_me", { name: $("rName").value.trim(), phone: $("rPhone").value.trim() });
+    const d = new Date(iso(date, s)).toLocaleDateString("tr-TR", { ...TZ, day: "numeric", month: "long" });
+    const groupText = `${d} ${s}-${e} arası sınavım için hesap makinesi lazım (${$("rCampus").value}). Verebilecek varsa buradan yazabilir: ${SITE}#give`;
+    msg("rOut", `Talebin yayında. Makinesi olan biri WhatsApp'tan yazacak.<a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(groupText)}">Gruba da duyur</a>`, true);
+    $("rNote").value = "";
+    load();
+  } catch (err) { msg("rOut", esc(err.message)); }
   finally { busy($("rBtn"), false, "Talep bırak"); }
 };
 
-// paylaş
-$("shareBtn").href = "https://wa.me/?text=" + encodeURIComponent("Sınav haftası hesap makinesi lazımsa ya da makineni ödünç verebilirsen: " + location.origin + location.pathname);
+$("shareBtn").href = "https://wa.me/?text=" + encodeURIComponent("Sınav haftası hesap makinesi lazımsa talep bırak, makinen varsa arayanlara ver: " + SITE);
 
-renderMyLend(); loadStats();
-const h = location.hash.slice(1); if (TABS.includes(h)) showTab(h);
+// açık talepleri canlı tut
+setInterval(() => { if (!document.hidden) load(); }, 60000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+
+const h = location.hash.slice(1);
+if (TABS.includes(h)) showTab(h); else load();
+addEventListener("hashchange", () => { const t = location.hash.slice(1); if (TABS.includes(t)) showTab(t); });
 </script>
 </body>
 </html>
